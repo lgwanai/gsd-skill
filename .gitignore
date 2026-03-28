@@ -8,6 +8,10 @@
 tmp/
 /tmp/
 
+# 构建输出目录
+dist/
+/dist/
+
 # Python 构建缓存
 __pycache__/
 *.pyc
