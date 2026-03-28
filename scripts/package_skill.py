@@ -206,8 +206,8 @@ class SkillPackager:
                 "package_date": datetime.now().isoformat(),
                 "package_file": self.zip_filename,
                 "files_included": len(self.collect_files()),  # Re-collect to count
-                "description": "Spec-Driven Development Skill - A systematic approach to building software through specification-first development",
-                "author": "Spec-Driven Development Team",
+                "description": "Spec-Skill - A systematic approach to building software through specification-first development",
+                "author": "Spec-Skill Team",
                 "requirements": {
                     "python": ">=3.8",
                     "platform": "any"

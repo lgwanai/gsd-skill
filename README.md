@@ -82,7 +82,7 @@
    ```bash
    python scripts/package_skill.py
    ```
-   *打包完成后，你会在项目根目录的 `dist/` 文件夹下看到生成的 `spec-driven-dev_*.zip` 文件。*
+   *打包完成后，你会在项目根目录的 `dist/` 文件夹下看到生成的 `spec-skill_*.zip` 文件。*
 
 3. **导入到 IDE/Agent**：
    - 打开 Trae IDE 或兼容的 Agent 平台的“技能（Skills）”管理面板。
