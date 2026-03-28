@@ -73,8 +73,8 @@
 
 1. **克隆仓库**：
    ```bash
-   git clone git@github.com:lgwanai/gsd-skill.git
-   cd gsd-skill
+   git clone git@github.com:lgwanai/spec-skill.git
+   cd spec-skill
    ```
 
 2. **打包技能**：
