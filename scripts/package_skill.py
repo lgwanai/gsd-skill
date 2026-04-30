@@ -28,9 +28,12 @@ class SkillPackager:
         # Files to include
         self.include_patterns = [
             "SKILL.md",
+            "README.md",
             "templates/**/*",
             "references/**/*",
             "scripts/**/*",
+            "workflows/**/*",
+            "commands/**/*",
         ]
         
         # Files to exclude
@@ -52,6 +55,13 @@ class SkillPackager:
             "templates/REQUIREMENTS.md",
             "templates/STATE.md",
             "templates/config.json",
+            "templates/README.md",
+            "workflows/execute-plan.md",
+            "workflows/verify-work.md",
+            "workflows/transition.md",
+            "workflows/health.md",
+            "commands/spec/new.md",
+            "commands/spec/help.md",
         ]
     
     def validate_skill_structure(self) -> bool:

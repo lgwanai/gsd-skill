@@ -1,6 +1,6 @@
 ---
 name: spec-skill
-description: "Comprehensive specification-driven development system for structured project planning and execution. Use when starting new projects, managing complex tasks, or ensuring code quality. ENFORCES a strict 'Ask-Plan-Execute' workflow where user confirmation is REQUIRED before code generation."
+description: "Comprehensive specification-driven development system for structured project planning and execution. Slash commands: /new-project, /plan, /execute, /verify, /health, /help, /next, /quick, /transition, /map-codebase. Use when starting new projects, managing complex tasks, or ensuring code quality. ENFORCES a strict 'Ask-Plan-Execute' workflow where user confirmation is REQUIRED before code generation."
 ---
 
 # Specification Driven Development
@@ -10,6 +10,57 @@ description: "Comprehensive specification-driven development system for structur
 Spec-driven-dev is a structured development system that transforms vague ideas into executable plans through systematic questioning, research, planning, and verification. Inspired by get-shit-done (GSD), it provides templates and workflows for managing software projects from conception to completion.
 
 **CRITICAL RULE**: You must **STOP and WAIT** for user confirmation at specific checkpoints. Do not rush from planning to execution in a single turn.
+
+## Commands
+
+All commands are invoked as `/spec-<name>` (e.g., `/spec-new`, `/spec-plan 1`). Commands automatically load the relevant workflow docs.
+
+### Core Workflow Commands
+
+| Command | Alias | What it does |
+|---------|-------|--------------|
+| `/spec-new` | `/new-project` | Full initialization: questions → requirements → roadmap. Creates `.planning/` structure |
+| `/spec-plan <N>` | `/plan`, `/plan-phase` | Research + create executable PLAN.md for phase N |
+| `/spec-execute <N>` | `/execute`, `/execute-phase` | Execute all plans for phase N in parallel waves |
+| `/spec-verify <N>` | `/verify`, `/verify-work` | Verify phase N completion: must_haves check, UAT, gap analysis |
+| `/spec-transition` | `/transition` | Complete current phase, update context, prepare next phase |
+| `/spec-next` | `/next` | Auto-detect current state and run the next logical step |
+
+### Utility Commands
+
+| Command | What it does |
+|---------|--------------|
+| `/spec-health [--repair]` | Validate `.planning/` directory integrity. `--repair` auto-fixes missing files |
+| `/spec-help` | Show all commands and usage guide |
+| `/spec-quick <task>` | Execute ad-hoc task with atomic commits, skip full planning |
+| `/spec-map-codebase [area]` | Analyze existing codebase for brownfield projects |
+| `/spec-config` | Show or update `.planning/config.json` settings |
+
+### Command Workflow Mapping
+
+| Command | Loads Workflow | Produces |
+|---------|---------------|----------|
+| `/spec-new` | `workflows/health.md` (init check) | PROJECT.md, REQUIREMENTS.md, ROADMAP.md, STATE.md, config.json |
+| `/spec-plan <N>` | `references/questioning.md` | `NN-CONTEXT.md`, `NN-RESEARCH.md`, `NN-MM-PLAN.md` |
+| `/spec-execute <N>` | `workflows/execute-plan.md` | Code changes, atomic commits, `NN-MM-SUMMARY.md` |
+| `/spec-verify <N>` | `workflows/verify-work.md` | `NN-VERIFICATION.md`, `NN-UAT.md`, fix plans if needed |
+| `/spec-transition` | `workflows/transition.md` | Updated PROJECT.md, ROADMAP.md, STATE.md |
+| `/spec-health` | `workflows/health.md` | Health report, auto-repairs if `--repair` |
+| `/spec-quick` | *(inline lightweight)* | Quick plan + summary in `.planning/quick/` |
+| `/spec-map-codebase` | `templates/codebase/*.md` | `.planning/codebase/*.md` analysis documents |
+
+### Quick Usage Examples
+
+```
+/spec-new                          # Start fresh project
+/spec-plan 1                       # Plan phase 1
+/spec-execute 1                    # Execute phase 1
+/spec-verify 1                     # Verify phase 1
+/spec-transition                   # Move to phase 2
+/spec-health --repair              # Fix missing planning files
+/spec-quick "Add dark mode toggle" # Ad-hoc task
+/spec-map-codebase api             # Analyze API layer
+```
 
 ## Configuration
 
@@ -240,9 +291,25 @@ Workflow:
 
 ## Resources
 
-This skill includes resource directories for templates and references:
+This skill includes resource directories for commands, templates, references, and scripts:
 
-### scripts/
+### commands/
+Slash command definitions that trigger specific workflows. Each command file describes the workflow, inputs, outputs, and rules for that operation.
+
+**Commands in this skill:**
+- `commands/spec/new.md` — `/spec-new`: Initialize a new project
+- `commands/spec/plan.md` — `/spec-plan <N>`: Plan a phase
+- `commands/spec/execute.md` — `/spec-execute <N>`: Execute a phase
+- `commands/spec/verify.md` — `/spec-verify <N>`: Verify phase completion
+- `commands/spec/transition.md` — `/spec-transition`: Complete and prepare next phase
+- `commands/spec/next.md` — `/spec-next`: Auto-detect next step
+- `commands/spec/help.md` — `/spec-help`: Show command reference
+- `commands/spec/quick.md` — `/spec-quick`: Execute ad-hoc task
+- `commands/spec/health.md` — `/spec-health [--repair]`: Check directory integrity
+- `commands/spec/map-codebase.md` — `/spec-map-codebase`: Analyze existing codebase
+- `commands/spec/config.md` — `/spec-config`: Manage configuration
+
+### workflows/
 Executable code (Python/Bash/etc.) that can be run directly to perform specific operations.
 
 **Scripts in this skill:**
@@ -268,6 +335,16 @@ Step-by-step workflow documentation for each phase of the spec-driven process. L
 - `workflows/verify-work.md` — Must-haves verification, UAT, gap handling
 - `workflows/transition.md` — Phase completion, context updates, next phase preparation
 - `workflows/health.md` — Directory integrity validation and auto-repair
+
+### scripts/
+Executable code (Python/Bash/etc.) that can be run directly to perform specific operations.
+
+**Scripts in this skill:**
+- `scripts/init_project.py` - Initialize a spec-driven project structure from templates
+- `scripts/validate_project.py` - Validate required planning files, directory structure, and phase artifacts
+- `scripts/package_skill.py` - Package this skill into a distributable zip with manifest metadata
+
+**Appropriate for:** Python scripts, shell scripts, or any executable code that performs automation, data processing, or specific operations.
 
 ### references/
 Documentation and reference material intended to be loaded into context to inform Claude's process and thinking.
